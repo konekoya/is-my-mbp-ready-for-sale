@@ -1,9 +1,16 @@
+import os
+
 import requests
+from dotenv import load_dotenv
 
 from mailer import send_email
 
+load_dotenv()
+
 url = "https://www.apple.com/tw/shop/configUpdate/MNWA3TA/A?node=home%2Fshop_mac%2Ffamily%2Fmacbook_pro%2Fconfig&option.memory_aos_phantom_z176=065-CDP2&option.hard_drive_solid_state_drive_aos_phantom_z176=065-CDP6&option.keyboard_and_documentation_z176=TA065-CDTM&option.sw_final_cut_pro_z176=065-CDTW&option.sw_logic_pro_z176=065-CDTY&bfil=0"
-# url = "https://www.apple.com/tw/shop/configUpdate/MLY43TA/A?node=home%2Fshop_mac%2Ffamily%2Fmacbook_air%2Fconfig&option.memory_aos_phantom_z161=065-CCJW&option.hard_drivesolid_state_drive_aos_phantom_z161=065-CCL1&option.power_adapter_aos_phantom_z161=065-CD7G&option.keyboard_and_documentation_z161=TA065-CD0F&option.sw_final_cut_pro_z161=065-CD5Y&option.sw_logic_pro_z161=065-CD61&bfil=0"
+
+
+to_email = os.environ.get('TO_EMAIL')
 
 headers = {
     'authority': 'www.apple.com',
@@ -30,9 +37,9 @@ shipping_date = data['body']['replace']['summary']['shipping']
 
 if '暫未發售' in shipping_date:
     print('Not ready to sell yet')
-    send_email(to="joshua@is-land.com.tw",
-               subject="Your MackBook Pro 16 is not ready for sell yet 😢😢😢")
+    send_email(to=to_email,
+               subject=f"Your MackBook Pro 16 is not ready for sell yet 😢😢😢")
 else:
     print('Quick, MBP 16 is ready for sell. Go grab your one!')
-    send_email(to="joshua@is-land.com.tw",
+    send_email(to=to_email,
                subject="Hurry, MBP 16 is ready for sell. Go crab your one!")
